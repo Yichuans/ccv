@@ -1,0 +1,22 @@
+{
+  "name": "bower_workspace",
+  "homepage": "https://github.com/Yichuans/ccv",
+  "description": "test for capacity",
+  "main": "",
+  "authors": [
+    "y"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "^2.2.4",
+    "bootstrap": "^3.3.6",
+    "d3": "^3.5.17"
+  }
+}

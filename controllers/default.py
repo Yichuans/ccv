@@ -70,25 +70,45 @@ def hlu():
 
     from ccv import get_hlu_by_wdpaid
 
-    # get params
-    wdpaid = request.args[0]
+    args = request.args
 
-    taxon_dict = request.get_vars
-    # if query string
-    if taxon_dict.has_key('taxon'):
-        taxon = taxon_dict['taxon']
+    # /hlu/<wdpaid>
+    if args:
+        wdpaid = args[0]
 
-        try:
-            row = get_hlu_by_wdpaid(wdpaid, taxon)
-            return dict(row=row)
+        taxon_dict = request.get_vars
 
-        except Exception as e:
-            return dict(e=e)
+        if not taxon_dict:
+            return "meant to be called: hlu.json/5004?taxon=amp"
 
+        # /hlu/<wdpaid>?taxon=<amp>
+        if taxon_dict.has_key('taxon'):
+            taxon = taxon_dict['taxon']
+
+            try:
+                row = get_hlu_by_wdpaid(wdpaid, taxon)
+                return dict(row=row)
+
+            except Exception as e:
+                return dict(e=e)
+
+        else:
+            return 'Query string should be taxon={amp|bird|coral}; got ' + ';'.join(taxon_dict.keys())
+    
+    # /hlu/
     else:
-        return 'Query string should be taxon={amp|bird|coral}; got ' + ';'.join(taxon_dict.keys())
-        
+        return "meant to be called: hlu.json/5004?taxon=amp"
+
 
 def site():
-    wdpaid = request.args[0]
-    return dict(wdpaid)
+    from ccv import gen_div_taxon
+    args = request.args
+
+    if args:
+        wdpaid = args[0]
+        return dict(wdpaid=wdpaid, 
+            amp=gen_div_taxon(wdpaid, 'amp'), 
+            bird=gen_div_taxon(wdpaid, 'bird'),
+            coral=gen_div_taxon(wdpaid, 'coral'))
+    else:
+        return dict(wdpaid=0)
