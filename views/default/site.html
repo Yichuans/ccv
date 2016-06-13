@@ -1,81 +1,196 @@
 <!DOCTYPE html>
-<html lang="en">
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
 <head>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-	<title>Site</title>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title></title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-	<!-- Bootstrap -->
-	<link rel="stylesheet" href="{{=URL('static','bower/bower_components/bootstrap/dist/css/bootstrap.min.css')}}"/>
-	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-      <![endif]-->
-  </head>
-  <body>
+  <link rel="stylesheet" href="{{=URL('static','css/site.css')}}"/>
+  <style type="text/css">
+    .radar-chart .level {
+  stroke: grey;
+  stroke-width: 0.5;
+}
 
-  	<div class="container-fluid">
-  		<!-- key messages -->
-  		<div class="row">
-  			<div class="col-xs-12 col-md-12">key msg</div>
-  		</div>
+.radar-chart .axis line {
+  stroke: grey;
+  stroke-width: 1;
+}
+.radar-chart .axis .legend {
+  font-family: sans-serif;
+  font-size: 10px;
+}
+.radar-chart .axis .legend.top {
+  dy:1em;
+}
+.radar-chart .axis .legend.left {
+  text-anchor: start;
+}
+.radar-chart .axis .legend.middle {
+  text-anchor: middle;
+}
+.radar-chart .axis .legend.right {
+  text-anchor: end;
+}
 
-  		<!-- map section -->
-  		<div class="row">
-  			<div class="col-xs-12 col-md-12">map</div>
-  		</div>
+.radar-chart .tooltip {
+  font-family: sans-serif;
+  font-size: 13px;
+  transition: opacity 200ms;
+  opacity: 0;
+}
+.radar-chart .tooltip.visible {
+  opacity: 1;
+}
 
-  		<!-- amp bird coral -->
-  		<div class="row">
-  			<div class="col-sm-12 col-md-4">{{=amp}}</div>
-  			<div class="col-sm-12 col-md-4">{{=bird}}</div>
-  			<div class="col-sm-12 col-md-4">{{=coral}}</div>
-       }
-  		</div>
+/* area transition when hovering */
+.radar-chart .area {
+  stroke-width: 2;
+  fill-opacity: 0.5;
+}
+.radar-chart.focus .area {
+  fill-opacity: 0.1;
+}
+.radar-chart.focus .area.focused {
+  fill-opacity: 0.7;
+}
 
-  	</div>
+.radar-chart .circle {
+  fill-opacity: 0.9;
+}
 
-  	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script> -->
+/* transitions */
+.radar-chart .area, .radar-chart .circle {
+  transition: opacity 300ms, fill-opacity 200ms;
+  opacity: 1;
+}
+.radar-chart .d3-enter, .radar-chart .d3-exit {
+  opacity: 0;
+}
+
+
+
+  </style>
+
+  <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+</head>
+<body>
+  <nav>
+    <div class="nav-left">
+      <img src='http://whca.noip.me/ca/static/images/iucn-white-logo.png'>
+      <a href="#"><div class="title">
+        <span class="main-title">Natural World Heritage sites</span>
+        <span class="sub-title">species climate change vulnerability analysis</span>
+      </div></a>
+
+    </div>
+    <div class="search-bar">
+      <input type="text"/>
+      <input type="submit" value="search">
+    </div>
+  </nav>
+  <main>
+    <section class="site-name">
+      <div class="main-title">Site name very long</div>
+      <div class="title-badge">badge</div>
+    </section>
+    <section class="main"></section>
+    <section class="infograph">
+      <div id="amp" class="viz">
+        <h2>Amphibians</h2></div>
+        <div id="bird" class="viz"><h2>Birds</h2></div>
+        <div id="coral" class="viz"><h2>Corals</h2></div>
+      </section>
+      <section class="detail">
+        {{=amp}}
+        {{=bird}}
+        {{=coral}}
+      </section>
+    </main>
+    <footer>
+      <section class="bottom-section">
+        <div class="about">about</div>
+        <div class="addition">additional info</div>
+        <div class="copyright">copy right</div>
+      </section>
+      <section class="bottom-bar">This is where license and additional information is</section>
+    </footer>
+
     <script src="{{=URL('static','bower/bower_components/jquery/dist/jquery.js')}}"></script>
 
-  	<!-- Include all compiled plugins (below), or include individual files as needed -->
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="{{=URL('static','bower/bower_components/bootstrap/dist/js/bootstrap.js')}}"></script>
     <script src="{{=URL('static','bower/bower_components/d3/d3.js')}}"></script>
+    <script src="{{=URL('static','bower/bower_components/radar-chart-d3/src/radar-chart.js')}}"></script>
 
-  	<script type="text/javascript">
-
-
-
-  		 $(document).ready(function(){
-  		 	// $.getJSON("{{=URL('hlu.json', args=request.args, vars=dict(taxon='amp'))}}", success = function(data){
-  		 	// 	data = data.row;
-      //     var snippet = $('<div>amp</div>');
-  		 	// 	for (var i in data){
-  		 	// 		if (data.hasOwnProperty(i)){
-  		 	// 			console.log(i);
-  		 	// 			console.log(data[i]);
-
-      //         // add index
-  		 	// 			snippet.append($('<div>' + i + '</div>')).append($('<p>'+data[i].H + data[i].L + data[i].U + '</p>'));
+    <script type="text/javascript">
 
 
-  		 				
+      $(document).ready(function(){
 
-  		 	// 		}
-  		 	// 	}
-      //     $('body').append(snippet);
+        var chart_style = {
+        containerClass: 'radar-chart', // target with css, the default stylesheet targets .radar-chart
+        w: 320,
+        h: 320,
+        factor: 0.85,
+        factorLegend: 1,
+        levels: 3,
+        maxValue: 0,
+        minValue: 0,
+        radians: 2 * Math.PI,
+        color: d3.scale.category10(), // pass a noop (function() {}) to decide color via css
+        axisLine: true,
+        axisText: true,
+        circles: true,
+        radius: 5,
+        open: false,  // whether or not the last axis value should connect back to the first axis value
+              // if true, consider modifying the chart opacity (see "Style with CSS" section above)
+        axisJoin: function(d, i) {
+        return d.className || i;
+        },
+        tooltipFormatValue: function(d) {
+        return d;
+        },
+        tooltipFormatClass: function(d) {
+        return d;
+        },
+        transitionDuration: 300
+        };
 
-  		 	});
 
+        var draw_taxon = function(taxon){
+  
+          var data;
+          d3.json("{{=URL('sle', args = request.args)}}" + '?taxon=' + taxon, function(error, json_data){
+          if (error){
+            $('#'+taxon).append($('<p>No data avaialble</p>'));
+            console.warn(error);}
+          data = json_data;
 
+          var chart = RadarChart.chart();
+          // predefined style outside of function
+          chart.config(chart_style);
+          var svg = d3.select('#' + taxon).append('svg')
+          .attr('width', 320)
+          .attr('height', 320);
 
+          // draw one
+          svg.append('g').classed('focus', 1).datum(data).call(chart);
+          });
+        };
 
+        draw_taxon('amp');
+        draw_taxon('bird');
+        draw_taxon('coral');
 
-  	</script>
-  </body>
-  </html>
+      });
+
+      </script>
+
+    </body>
+    </html>

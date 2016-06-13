@@ -1,0 +1,133 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto);
+html {
+  height: 100%;
+  font-family: Roboto;
+}
+
+body {
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+nav {
+  padding: 10px 10px;
+  min-width: 320px;
+  display: flex;
+  background: OliveDrab;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+nav a {
+  text-decoration: none;
+}
+nav .nav-left {
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+}
+nav .nav-left .title {
+  margin-left: 5px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+}
+nav .nav-left .title .main-title {
+  font-size: 20px;
+  color: #fff;
+}
+nav .nav-left .title .sub-title {
+  margin-left: 10px;
+  font-size: 15px;
+  color: #cccccc;
+  text-decoration: underline;
+  text-transform: capitalize;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+}
+main .site-name {
+  height: 150px;
+  background: #6666ff;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-wrap: wrap;
+}
+main .site-name div {
+  min-width: 300px;
+}
+main .main {
+  height: 400px;
+}
+main .infograph {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+main .infograph .viz {
+  border: 1px solid grey;
+  min-width: 320px;
+  min-height: 320px;
+  padding: 5px;
+  margin: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+footer {
+  display: flex;
+  flex-direction: column;
+  height: 200px;
+  background-color: OliveDrab;
+  color: #fff;
+}
+footer .bottom-section {
+  display: flex;
+  justify-content: center;
+  flex-grow: 1;
+}
+footer .bottom-section .about,
+footer .bottom-section .addition,
+footer .bottom-section .copyright {
+  width: 33%;
+  display: flex;
+  justify-content: center;
+  flex-grow: 1;
+  border: 0.5px solid white;
+}
+footer .bottom-bar {
+  display: flex;
+  background-color: #000;
+  height: 20px;
+  justify-content: flex-end;
+  font-size: 0.5em;
+}
+
+@media (max-width: 835px) {
+  nav {
+    flex-direction: column;
+  }
+}
+@media (max-width: 640px) {
+  nav .nav-left .title {
+    flex-direction: column;
+    align-items: center;
+    flex-wrap: nowrap;
+  }
+
+  footer .bottom-section {
+    flex-direction: column;
+  }
+  footer .bottom-section .about,
+  footer .bottom-section .addition,
+  footer .bottom-section .copyright {
+    width: 100%;
+  }
+}

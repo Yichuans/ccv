@@ -20,6 +20,7 @@ from gluon.html import *
 # 	if record:
 # 		return record.as_dict()
 # 	return None
+sle_components = ['SENSITIVITY','LOW_ADAPTABILITY','EXPOSURE']
 
 
 def get_hlu_by_wdpaid(wdpaid, taxon):
@@ -89,7 +90,6 @@ def gen_div_taxon(wdpaid, taxon):
 	final_div = gen_div_com('FINAL_SCORE', 'final')
 
 	# separate aggregate
-	sle_components = ['SENSITIVITY','LOW_ADAPTABILITY','EXPOSURE']
 	sle_div_list = [gen_div_com(component, 'sle') for component in sle_components]
 
 	div_list.append(final_div)

@@ -99,6 +99,41 @@ def hlu():
     else:
         return "meant to be called: hlu.json/5004?taxon=amp"
 
+def sle():
+    """exposure, sensitivity and low adaptability
+    meant to be called: esl.json/5004?taxon=amp"""
+    from ccv import get_hlu_by_wdpaid, sle_components
+
+
+    args = request.args
+    taxon_dict = request.get_vars
+
+    if args and taxon_dict.has_key('taxon'):
+        wdpaid = args[0]
+        taxon = taxon_dict['taxon']
+
+        # construct dict for output
+        row = get_hlu_by_wdpaid(wdpaid, taxon)
+
+        # if there is data
+        if row:
+            # Sensitivity, Low-adapt and exposure
+            sle_total = [dict(axis=component, value=row[component]['H'] + row[component]['L'] + row[component]['U']) for component in sle_components]
+            axes_total = dict(className='Total', axes=sle_total)
+
+            sle_h = [dict(axis=component, value=row[component]['H']) for component in sle_components]
+            axes_h = dict(className='High', axes=sle_h)
+
+            result = [axes_h, axes_total]
+
+            # return dict(data=result)
+            import json
+            return json.dumps(result)
+
+    else:
+        return None
+
+
 
 def site():
     from ccv import gen_div_taxon
@@ -106,9 +141,16 @@ def site():
 
     if args:
         wdpaid = args[0]
+
+        # needs to check if wdpaid is a valid WH site
+
         return dict(wdpaid=wdpaid, 
             amp=gen_div_taxon(wdpaid, 'amp'), 
             bird=gen_div_taxon(wdpaid, 'bird'),
             coral=gen_div_taxon(wdpaid, 'coral'))
     else:
         return dict(wdpaid=0)
+
+
+def test_spider_chart():
+    return dict()

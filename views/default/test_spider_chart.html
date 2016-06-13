@@ -1,0 +1,119 @@
+
+<!DOCTYPE html>
+<html >
+<head>
+	<meta charset="UTF-8">
+
+
+	<style>
+		.radar-chart .level {
+			stroke: grey;
+			stroke-width: 0.5;
+		}
+
+		.radar-chart .axis line {
+			stroke: grey;
+			stroke-width: 1;
+		}
+
+		.radar-chart .axis .legend {
+			font-family: sans-serif;
+			font-size: 10px;
+		}
+
+		.radar-chart .axis .legend.top {
+			dy: 1em;
+		}
+
+		.radar-chart .axis .legend.left {
+			text-anchor: start;
+		}
+
+		.radar-chart .axis .legend.middle {
+			text-anchor: middle;
+		}
+
+		.radar-chart .axis .legend.right {
+			text-anchor: end;
+		}
+
+		.radar-chart .tooltip {
+			font-family: sans-serif;
+			font-size: 13px;
+			transition: opacity 200ms;
+			opacity: 0;
+		}
+
+		.radar-chart .tooltip.visible {
+			opacity: 1;
+		}
+
+		/* area transition when hovering */
+		.radar-chart .area {
+			stroke-width: 2;
+			fill-opacity: 0.5;
+		}
+
+		.radar-chart.focus .area {
+			fill-opacity: 0.1;
+		}
+
+		.radar-chart.focus .area.focused {
+			fill-opacity: 0.7;
+		}
+
+		.radar-chart .circle {
+			fill-opacity: 0.9;
+		}
+
+		/* transitions */
+		.radar-chart .area, .radar-chart .circle {
+			transition: opacity 300ms, fill-opacity 200ms;
+			opacity: 1;
+		}
+
+		.radar-chart .d3-enter, .radar-chart .d3-exit {
+			opacity: 0;
+		}
+
+	</style>
+
+
+
+
+</head>
+
+<body translate="no" >
+
+	<body>
+		<div class="chart-container"></div>
+	</body>
+
+	<script src='https://code.jquery.com/jquery-2.2.4.min.js'></script>
+	<script src='https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js'></script>
+	<script src='https://rawgit.com/tpreusse/radar-chart-d3/master/src/radar-chart.js'></script>
+
+	<script>
+		var data;
+		d3.json('http://localhost:4568/ccv/default/sle/5004?taxon=bird', function(error, json_data){
+			if (error) return console.warn(error);
+			data = json_data;
+
+			var chart = RadarChart.chart();
+			var svg = d3.select('body').append('svg')
+			.attr('width', 600)
+			.attr('height', 800);
+
+			// draw one
+			svg.append('g').classed('focus', 2).datum(data).call(chart);
+			});
+
+
+  </script>
+
+
+
+
+</body>
+</html>
+
