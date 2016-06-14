@@ -69,7 +69,7 @@ def hlu():
     # such as: hlu.json/5004?taxon=amp
     # ===========
 
-    from ccv import get_hlu_by_wdpaid
+    from ccv import get_hlu_by_wdpaid_mk2
     import json
 
     args = request.args
@@ -88,7 +88,7 @@ def hlu():
             taxon = taxon_dict['taxon']
 
             try:
-                row = get_hlu_by_wdpaid(wdpaid, taxon)
+                row = get_hlu_by_wdpaid_mk2(wdpaid, taxon)
                 # return dict(row=row)
                 return json.dumps(row)
 

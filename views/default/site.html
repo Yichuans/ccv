@@ -136,9 +136,25 @@
     <script src="{{=URL('static','bower/bower_components/d3/d3.js')}}"></script>
     <script src="{{=URL('static','bower/bower_components/radar-chart-d3/src/radar-chart.js')}}"></script>
     <script type="text/javascript">
-    var amp_data, bird_data, coral_data;
 
-    $(document).ready(function() {
+        var hlu_data;
+        // var amp_data, bird_data, coral_data;
+        var bird_data;
+
+        (function() {
+            d3.json("{{=URL('hlu', args = request.args)}}" + '?taxon=' + 'bird', function(error, json_data) {
+                if (error) {
+                    console.warn(error);
+                } else {
+                  bird_data = json_data;
+                }
+            })
+        })();
+
+        var predefined_colors = function(n) {
+          var p_colors = ["#B6323A", "#eeeeee", "#222222"];
+          return p_colors[n % p_colors.length];
+        }
 
         var chart_style = {
             containerClass: 'radar-chart', // target with css, the default stylesheet targets .radar-chart
@@ -170,27 +186,13 @@
         };
 
         // for barchart
-        var get_taxon_data = function(taxon) {
-            var all_data;
-
-            d3.json("{{=URL('hlu', args = request.args)}}" + '?taxon=' + taxon, function(error, json_data) {
-                if (error) {
-                    console.warn(error);
-                    all_data = {}
-                } else {
-                  console.log(json_data);
-                    all_data = json_data;
-                    }
-            })
-
-            return all_data;
-        }
 
         // for radar-chart
         var draw_taxon = function(taxon) {
             var data;
             d3.json("{{=URL('sle', args = request.args)}}" + '?taxon=' + taxon, function(error, json_data) {
                 data = json_data;
+
                 if (error) {
                     $('#' + taxon).append($('<p>Error occurred: ' + error + '</p>'));
                     console.warn(error);
@@ -212,16 +214,75 @@
 
         var draw_bar = function(taxon, component) {
 
+            d3.json("{{=URL('hlu', args = request.args)}}" + '?taxon=' + taxon, function(error, json_data) {
+                if (error) {
+                    console.warn(error);
+                } else {
+                  // debug
+                  // console.log(json_data);
+                  hlu_data = json_data;
+
+                  var component_data = json_data[component]
+                  if (component_data) {
+
+                    var data = component_data;
+
+                    // get scale
+                    var hlu_sum = 0;
+                    for (var i=0; i<data.length; i++) {
+                        hlu_sum += data[i].value;
+                    }
+
+                    var bar_scale = d3.scale.linear()
+                        .range([0, 320])
+                        .domain([0, hlu_sum])
+
+
+                    var svg = d3.select('.detail').append('div')
+                        .append('svg')
+                        .attr('width', 320)
+                        .attr('height', 200)
+
+                    // add rects
+                    svg.selectAll('rect').data(data)
+                        .enter()
+                        .append('rect')
+                        .attr('width', function(d){return bar_scale(d.value)})
+                        .attr('height', 20)
+                        .attr('x', function(d){return bar_scale(d.baseline)})
+                        .attr('fill', function(d, i){return predefined_colors(i)})
+
+                    // add annotation
+                    svg.selectAll('text').data(data)
+                        .enter()
+                        .append('text')
+                        .attr('x', function(d){return bar_scale(d.baseline)})
+                        .attr('y', 20)
+                        .text(function(d){return d.label + ':' + d.value})
+
+                  }
+
+
+                }
+            })
+
         }
 
-        // get all data
-        amp_data = get_taxon_data('amp');
-        bird_data = get_taxon_data('bird');
-        coral_data = get_taxon_data('coral');
+    $(document).ready(function() {
+
+        // callback functions cannot return values - this won't work!!
+        // get_taxon_data('amp', amp_data);
+        // get_taxon_data('bird', bird_data);
+        // get_taxon_data('coral', coral_data);
+        // get_bird_data();
 
         draw_taxon('amp');
         draw_taxon('bird');
         draw_taxon('coral');
+
+        draw_bar('amp', 'FINAL_SCORE')
+        draw_bar('bird', 'FINAL_SCORE')
+        draw_bar('coral', 'FINAL_SCORE')
 
     });
     </script>

@@ -231,4 +231,4 @@ db.define_table('wh_bird',
 )
 
 # index to speed up
-db.executesql('CREATE INDEX IF NOT EXISTS wh_bird_idx ON wh_bird (wdpaid);')
+# db.executesql('CREATE INDEX IF NOT EXISTS wh_bird_idx ON wh_bird (wdpaid);')
