@@ -2,195 +2,229 @@
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
 <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js">
+<!--<![endif]-->
+
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title></title>
-  <meta name="description" content="">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  <link rel="stylesheet" href="{{=URL('static','css/site.css')}}"/>
-  <style type="text/css">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{{=URL('static','css/site.css')}}" />
+    <style type="text/css">
     .radar-chart .level {
-  stroke: grey;
-  stroke-width: 0.5;
-}
-
-.radar-chart .axis line {
-  stroke: grey;
-  stroke-width: 1;
-}
-.radar-chart .axis .legend {
-  font-family: sans-serif;
-  font-size: 10px;
-}
-.radar-chart .axis .legend.top {
-  dy:1em;
-}
-.radar-chart .axis .legend.left {
-  text-anchor: start;
-}
-.radar-chart .axis .legend.middle {
-  text-anchor: middle;
-}
-.radar-chart .axis .legend.right {
-  text-anchor: end;
-}
-
-.radar-chart .tooltip {
-  font-family: sans-serif;
-  font-size: 13px;
-  transition: opacity 200ms;
-  opacity: 0;
-}
-.radar-chart .tooltip.visible {
-  opacity: 1;
-}
-
-/* area transition when hovering */
-.radar-chart .area {
-  stroke-width: 2;
-  fill-opacity: 0.5;
-}
-.radar-chart.focus .area {
-  fill-opacity: 0.1;
-}
-.radar-chart.focus .area.focused {
-  fill-opacity: 0.7;
-}
-
-.radar-chart .circle {
-  fill-opacity: 0.9;
-}
-
-/* transitions */
-.radar-chart .area, .radar-chart .circle {
-  transition: opacity 300ms, fill-opacity 200ms;
-  opacity: 1;
-}
-.radar-chart .d3-enter, .radar-chart .d3-exit {
-  opacity: 0;
-}
-
-
-
-  </style>
-
-  <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+        stroke: grey;
+        stroke-width: 0.5;
+    }
+    
+    .radar-chart .axis line {
+        stroke: grey;
+        stroke-width: 1;
+    }
+    
+    .radar-chart .axis .legend {
+        font-family: sans-serif;
+        font-size: 10px;
+    }
+    
+    .radar-chart .axis .legend.top {
+        dy: 1em;
+    }
+    
+    .radar-chart .axis .legend.left {
+        text-anchor: start;
+    }
+    
+    .radar-chart .axis .legend.middle {
+        text-anchor: middle;
+    }
+    
+    .radar-chart .axis .legend.right {
+        text-anchor: end;
+    }
+    
+    .radar-chart .tooltip {
+        font-family: sans-serif;
+        font-size: 13px;
+        transition: opacity 200ms;
+        opacity: 0;
+    }
+    
+    .radar-chart .tooltip.visible {
+        opacity: 1;
+    }
+    /* area transition when hovering */
+    
+    .radar-chart .area {
+        stroke-width: 2;
+        fill-opacity: 0.5;
+    }
+    
+    .radar-chart.focus .area {
+        fill-opacity: 0.1;
+    }
+    
+    .radar-chart.focus .area.focused {
+        fill-opacity: 0.7;
+    }
+    
+    .radar-chart .circle {
+        fill-opacity: 0.9;
+    }
+    /* transitions */
+    
+    .radar-chart .area,
+    .radar-chart .circle {
+        transition: opacity 300ms, fill-opacity 200ms;
+        opacity: 1;
+    }
+    
+    .radar-chart .d3-enter,
+    .radar-chart .d3-exit {
+        opacity: 0;
+    }
+    </style>
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
 </head>
-<body>
-  <nav>
-    <div class="nav-left">
-      <img src='http://whca.noip.me/ca/static/images/iucn-white-logo.png'>
-      <a href="#"><div class="title">
-        <span class="main-title">Natural World Heritage sites</span>
-        <span class="sub-title">species climate change vulnerability analysis</span>
-      </div></a>
 
-    </div>
-    <div class="search-bar">
-      <input type="text"/>
-      <input type="submit" value="search">
-    </div>
-  </nav>
-  <main>
-    <section class="site-name">
-      <div class="main-title">Site name very long</div>
-      <div class="title-badge">badge</div>
-    </section>
-    <section class="main"></section>
-    <section class="infograph">
-      <div id="amp" class="viz">
-        <h2>Amphibians</h2></div>
-        <div id="bird" class="viz"><h2>Birds</h2></div>
-        <div id="coral" class="viz"><h2>Corals</h2></div>
-      </section>
-      <section class="detail">
-        {{=amp}}
-        {{=bird}}
-        {{=coral}}
-      </section>
+<body>
+    <nav>
+        <div class="nav-left">
+            <img src='http://whca.noip.me/ca/static/images/iucn-white-logo.png'>
+            <a href="#">
+                <div class="title">
+                    <span class="main-title">Natural World Heritage sites</span>
+                    <span class="sub-title">species climate change vulnerability analysis</span>
+                </div>
+            </a>
+        </div>
+        <div class="search-bar">
+            <input type="text" />
+            <input type="submit" value="search">
+        </div>
+    </nav>
+    <main>
+        <section class="site-name">
+            <div class="main-title">Site name very long</div>
+            <div class="title-badge">badge</div>
+        </section>
+        <section class="main"></section>
+        <section class="infograph">
+            <div id="amp" class="viz">
+                <h2>Amphibians</h2></div>
+            <div id="bird" class="viz">
+                <h2>Birds</h2></div>
+            <div id="coral" class="viz">
+                <h2>Corals</h2></div>
+        </section>
+        <section class="detail">
+        </section>
     </main>
     <footer>
-      <section class="bottom-section">
-        <div class="about">about</div>
-        <div class="addition">additional info</div>
-        <div class="copyright">copy right</div>
-      </section>
-      <section class="bottom-bar">This is where license and additional information is</section>
+        <section class="bottom-section">
+            <div class="about">about</div>
+            <div class="addition">additional info</div>
+            <div class="copyright">copy right</div>
+        </section>
+        <section class="bottom-bar">This is where license and additional information is</section>
     </footer>
-
     <script src="{{=URL('static','bower/bower_components/jquery/dist/jquery.js')}}"></script>
-
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="{{=URL('static','bower/bower_components/bootstrap/dist/js/bootstrap.js')}}"></script>
     <script src="{{=URL('static','bower/bower_components/d3/d3.js')}}"></script>
     <script src="{{=URL('static','bower/bower_components/radar-chart-d3/src/radar-chart.js')}}"></script>
-
     <script type="text/javascript">
+    var amp_data, bird_data, coral_data;
 
-
-      $(document).ready(function(){
+    $(document).ready(function() {
 
         var chart_style = {
-        containerClass: 'radar-chart', // target with css, the default stylesheet targets .radar-chart
-        w: 320,
-        h: 320,
-        factor: 0.85,
-        factorLegend: 1,
-        levels: 3,
-        maxValue: 0,
-        minValue: 0,
-        radians: 2 * Math.PI,
-        color: d3.scale.category10(), // pass a noop (function() {}) to decide color via css
-        axisLine: true,
-        axisText: true,
-        circles: true,
-        radius: 5,
-        open: false,  // whether or not the last axis value should connect back to the first axis value
-              // if true, consider modifying the chart opacity (see "Style with CSS" section above)
-        axisJoin: function(d, i) {
-        return d.className || i;
-        },
-        tooltipFormatValue: function(d) {
-        return d;
-        },
-        tooltipFormatClass: function(d) {
-        return d;
-        },
-        transitionDuration: 300
+            containerClass: 'radar-chart', // target with css, the default stylesheet targets .radar-chart
+            w: 320,
+            h: 320,
+            factor: 0.85,
+            factorLegend: 1,
+            levels: 3,
+            maxValue: 0,
+            minValue: 0,
+            radians: 2 * Math.PI,
+            color: d3.scale.category10(), // pass a noop (function() {}) to decide color via css
+            axisLine: true,
+            axisText: true,
+            circles: true,
+            radius: 5,
+            open: false, // whether or not the last axis value should connect back to the first axis value
+            // if true, consider modifying the chart opacity (see "Style with CSS" section above)
+            axisJoin: function(d, i) {
+                return d.className || i;
+            },
+            tooltipFormatValue: function(d) {
+                return d;
+            },
+            tooltipFormatClass: function(d) {
+                return d;
+            },
+            transitionDuration: 300
         };
 
+        // for barchart
+        var get_taxon_data = function(taxon) {
+            var all_data;
 
-        var draw_taxon = function(taxon){
-  
-          var data;
-          d3.json("{{=URL('sle', args = request.args)}}" + '?taxon=' + taxon, function(error, json_data){
-          if (error){
-            $('#'+taxon).append($('<p>No data avaialble</p>'));
-            console.warn(error);}
-          data = json_data;
+            d3.json("{{=URL('hlu', args = request.args)}}" + '?taxon=' + taxon, function(error, json_data) {
+                if (error) {
+                    console.warn(error);
+                    all_data = {}
+                } else {
+                  console.log(json_data);
+                    all_data = json_data;
+                    }
+            })
 
-          var chart = RadarChart.chart();
-          // predefined style outside of function
-          chart.config(chart_style);
-          var svg = d3.select('#' + taxon).append('svg')
-          .attr('width', 320)
-          .attr('height', 320);
+            return all_data;
+        }
 
-          // draw one
-          svg.append('g').classed('focus', 1).datum(data).call(chart);
-          });
+        // for radar-chart
+        var draw_taxon = function(taxon) {
+            var data;
+            d3.json("{{=URL('sle', args = request.args)}}" + '?taxon=' + taxon, function(error, json_data) {
+                data = json_data;
+                if (error) {
+                    $('#' + taxon).append($('<p>Error occurred: ' + error + '</p>'));
+                    console.warn(error);
+                } else if ($.isEmptyObject(data)) {
+                    $('#' + taxon).append('<p>No data avaialble</p>');
+                } else {
+                    var chart = RadarChart.chart();
+                    // predefined style outside of function
+                    chart.config(chart_style);
+                    var svg = d3.select('#' + taxon).append('svg')
+                        .attr('width', 320)
+                        .attr('height', 320);
+
+                    // draw one
+                    svg.append('g').classed('focus', 1).datum(data).call(chart);
+                }
+            });
         };
+
+        var draw_bar = function(taxon, component) {
+
+        }
+
+        // get all data
+        amp_data = get_taxon_data('amp');
+        bird_data = get_taxon_data('bird');
+        coral_data = get_taxon_data('coral');
 
         draw_taxon('amp');
         draw_taxon('bird');
         draw_taxon('coral');
 
-      });
+    });
+    </script>
+</body>
 
-      </script>
-
-    </body>
-    </html>
+</html>

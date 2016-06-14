@@ -69,6 +69,7 @@ def hlu():
     # ===========
 
     from ccv import get_hlu_by_wdpaid
+    import json
 
     args = request.args
 
@@ -87,7 +88,8 @@ def hlu():
 
             try:
                 row = get_hlu_by_wdpaid(wdpaid, taxon)
-                return dict(row=row)
+                # return dict(row=row)
+                return json.dumps(row)
 
             except Exception as e:
                 return dict(e=e)
@@ -101,9 +103,10 @@ def hlu():
 
 def sle():
     """exposure, sensitivity and low adaptability
-    meant to be called: esl.json/5004?taxon=amp"""
+    meant to be called: esl.json/5004?taxon=amp
+    constructed for d3js for radar-chart"""
     from ccv import get_hlu_by_wdpaid, sle_components
-
+    import json
 
     args = request.args
     taxon_dict = request.get_vars
@@ -127,13 +130,14 @@ def sle():
             result = [axes_h, axes_total]
 
             # return dict(data=result)
-            import json
+            
             return json.dumps(result)
+
+        # if there is no data
+        return json.dumps([])
 
     else:
         return None
-
-
 
 def site():
     from ccv import gen_div_taxon
