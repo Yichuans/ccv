@@ -1,0 +1,218 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto);
+$theme-color: OliveDrab;
+$nav-font-color: #fff;
+$theme-font-color: #fff;
+html {
+    height: 100%;
+    font-family: Roboto;
+}
+
+body {
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+}
+
+nav {
+    padding: 10px 10px;
+    min-width: 320px;
+    display: flex;
+    background: $theme-color;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    a {
+        text-decoration: none; //suppressing default style for anchor
+    }
+    .nav-left {
+        display: flex;
+        align-items: center;
+        flex-wrap: nowrap;
+        .title {
+            margin-left: 5px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: flex-start;
+            flex-wrap: wrap;
+            .main-title {
+                font-size: 20px;
+                color: $nav-font-color;
+            }
+            .sub-title {
+                margin-left: 10px;
+                font-size: 15px;
+                color: darken($nav-font-color, 20);
+                text-decoration: underline;
+                text-transform: capitalize;
+            }
+        }
+    }
+}
+
+main {
+    // background: #eee;
+    // height: calc(100vh - 270px);
+    display: flex;
+    flex-direction: column;
+    .site-name {
+        height: 150px;
+        background: lighten(blue, 20);
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        flex-wrap: wrap;
+        div {
+            // margin: 0 20px;
+            min-width: 300px;
+        }
+    }
+    .main {
+        height: 400px;
+        // background: blue;
+    }
+    .infograph {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        flex-wrap: wrap;
+        .viz {
+            border: 1px solid grey;
+            min-width: 320px;
+            min-height: 320px;
+            padding: 5px;
+            margin: 5px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            // justify-content: center;
+            p {}
+        }
+    }
+    .detail {
+        display: flex;
+        justify-content: space-around;
+        flex-wrap: wrap;
+
+        .amp-detail, .bird-detail, .coral-detail{
+          width: 320px;
+        }
+    }
+}
+
+
+footer {
+    display: flex;
+    flex-direction: column;
+    height: 200px;
+    background-color: $theme-color;
+    color: $theme-font-color;
+    .bottom-section {
+        display: flex;
+        justify-content: center;
+        flex-grow: 1;
+        .about,
+        .addition,
+        .copyright {
+            width: 33%;
+            display: flex;
+            justify-content: center;
+            flex-grow: 1;
+            border: 0.5px solid white;
+        }
+    }
+    
+    .bottom-bar {
+        display: flex;
+        background-color: #000;
+        height: 20px;
+        justify-content: flex-end;
+        font-size: 0.5em;
+    }
+}
+// medium
+@media (max-width: 835px) {
+    nav {
+        flex-direction: column;
+    }
+}
+// small
+@media (max-width: 640px) {
+    nav .nav-left .title {
+        flex-direction: column;
+        align-items: center;
+        flex-wrap: nowrap;
+        // justify-content: center;
+    }
+    
+    footer {
+        .bottom-section {
+            flex-direction: column;
+            .about,
+            .addition,
+            .copyright {
+                width: 100%;
+            }
+        }
+    }
+}
+// d3
+// radar chart
+.radar-chart .level {
+    stroke: grey;
+    stroke-width: 0.5;
+}
+.radar-chart .axis line {
+    stroke: grey;
+    stroke-width: 1;
+}
+.radar-chart .axis .legend {
+    font-family: sans-serif;
+    font-size: 10px;
+}
+.radar-chart .axis .legend.top {
+    dy: 1em;
+}
+.radar-chart .axis .legend.left {
+    text-anchor: start;
+}
+.radar-chart .axis .legend.middle {
+    text-anchor: middle;
+}
+.radar-chart .axis .legend.right {
+    text-anchor: end;
+}
+.radar-chart .tooltip {
+    font-family: sans-serif;
+    font-size: 13px;
+    transition: opacity 200ms;
+    opacity: 0;
+}
+.radar-chart .tooltip.visible {
+    opacity: 1;
+}
+
+/* area transition when hovering */
+.radar-chart .area {
+    stroke-width: 2;
+    fill-opacity: 0.5;
+}
+.radar-chart.focus .area {
+    fill-opacity: 0.1;
+}
+.radar-chart.focus .area.focused {
+    fill-opacity: 0.7;
+}
+.radar-chart .circle {
+    fill-opacity: 0.9;
+}
+
+/* transitions */
+.radar-chart .area,
+.radar-chart .circle {
+    transition: opacity 300ms, fill-opacity 200ms;
+    opacity: 1;
+}
+.radar-chart .d3-enter,
+.radar-chart .d3-exit {
+    opacity: 0;
+}

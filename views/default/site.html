@@ -14,77 +14,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="{{=URL('static','css/site.css')}}" />
     <style type="text/css">
-    .radar-chart .level {
-        stroke: grey;
-        stroke-width: 0.5;
-    }
-    
-    .radar-chart .axis line {
-        stroke: grey;
-        stroke-width: 1;
-    }
-    
-    .radar-chart .axis .legend {
-        font-family: sans-serif;
-        font-size: 10px;
-    }
-    
-    .radar-chart .axis .legend.top {
-        dy: 1em;
-    }
-    
-    .radar-chart .axis .legend.left {
-        text-anchor: start;
-    }
-    
-    .radar-chart .axis .legend.middle {
-        text-anchor: middle;
-    }
-    
-    .radar-chart .axis .legend.right {
-        text-anchor: end;
-    }
-    
-    .radar-chart .tooltip {
-        font-family: sans-serif;
-        font-size: 13px;
-        transition: opacity 200ms;
-        opacity: 0;
-    }
-    
-    .radar-chart .tooltip.visible {
-        opacity: 1;
-    }
-    /* area transition when hovering */
-    
-    .radar-chart .area {
-        stroke-width: 2;
-        fill-opacity: 0.5;
-    }
-    
-    .radar-chart.focus .area {
-        fill-opacity: 0.1;
-    }
-    
-    .radar-chart.focus .area.focused {
-        fill-opacity: 0.7;
-    }
-    
-    .radar-chart .circle {
-        fill-opacity: 0.9;
-    }
-    /* transitions */
-    
-    .radar-chart .area,
-    .radar-chart .circle {
-        transition: opacity 300ms, fill-opacity 200ms;
-        opacity: 1;
-    }
-    
-    .radar-chart .d3-enter,
-    .radar-chart .d3-exit {
-        opacity: 0;
-    }
+
     </style>
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
 </head>
@@ -119,7 +49,11 @@
             <div id="coral" class="viz">
                 <h2>Corals</h2></div>
         </section>
+        <hr />
         <section class="detail">
+            <div class="amp-detail"></div>
+            <div class="bird-detail"></div>
+            <div class="coral-detail"></div>
         </section>
     </main>
     <footer>
@@ -320,7 +254,16 @@
 
 
     $(document).ready(function() {
+        // // populate basic attribute 
+        $.get("{{=URL(a='utility', c='default', f='wh_attr', args=request.args)}}", function(data) {
+                // console.log(data);
+                data = JSON.parse(data);
+                $('.site-name .main-title').text(data.en_name);
 
+            })
+            // 
+
+        // radar plot
         add_radar_taxon('amp');
         add_radar_taxon('bird');
         add_radar_taxon('coral');
@@ -329,10 +272,13 @@
         // add_bar('bird', 'FINAL_SCORE');
         // add_bar('amp)
 
-        add_all_detail_bars(bird_url)
-            // draw_bar('amp', 'FINAL_SCORE')
-            // draw_bar('bird', 'FINAL_SCORE')
-            // draw_bar('coral', 'FINAL_SCORE')
+        add_all_detail_bars(amp_url, '.amp-detail')
+        add_all_detail_bars(bird_url, '.bird-detail')
+        add_all_detail_bars(coral_url, '.coral-detail')
+
+        // draw_bar('amp', 'FINAL_SCORE')
+        // draw_bar('bird', 'FINAL_SCORE')
+        // draw_bar('coral', 'FINAL_SCORE')
 
     });
     </script>

@@ -140,22 +140,26 @@ def sle():
     else:
         return None
 
+# def site():
+#     from ccv import gen_div_taxon
+#     args = request.args
+
+#     if args:
+#         wdpaid = args[0]
+
+#         return dict(wdpaid=wdpaid)
+
+#         # needs to check if wdpaid is a valid WH site
+
+#         # return dict(wdpaid=wdpaid, 
+#         #     amp=gen_div_taxon(wdpaid, 'amp'), 
+#         #     bird=gen_div_taxon(wdpaid, 'bird'),
+#         #     coral=gen_div_taxon(wdpaid, 'coral'))
+#     else:
+#         return dict(wdpaid=0)
+
 def site():
-    from ccv import gen_div_taxon
-    args = request.args
-
-    if args:
-        wdpaid = args[0]
-
-        # needs to check if wdpaid is a valid WH site
-
-        return dict(wdpaid=wdpaid, 
-            amp=gen_div_taxon(wdpaid, 'amp'), 
-            bird=gen_div_taxon(wdpaid, 'bird'),
-            coral=gen_div_taxon(wdpaid, 'coral'))
-    else:
-        return dict(wdpaid=0)
-
+    return dict()
 
 def test_spider_chart():
     return dict()
