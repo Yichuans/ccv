@@ -92,7 +92,7 @@
 <body>
     <nav>
         <div class="nav-left">
-            <img src='http://whca.noip.me/ca/static/images/iucn-white-logo.png'>
+            <!-- <img src='http://whca.noip.me/ca/static/images/iucn-white-logo.png'> -->
             <a href="#">
                 <div class="title">
                     <span class="main-title">Natural World Heritage sites</span>
@@ -136,153 +136,203 @@
     <script src="{{=URL('static','bower/bower_components/d3/d3.js')}}"></script>
     <script src="{{=URL('static','bower/bower_components/radar-chart-d3/src/radar-chart.js')}}"></script>
     <script type="text/javascript">
+    var amp_url = "{{=URL('hlu', args = request.args)}}" + '?taxon=amp';
+    var bird_url = "{{=URL('hlu', args = request.args)}}" + '?taxon=bird';
+    var coral_url = "{{=URL('hlu', args = request.args)}}" + '?taxon=coral';
 
-        var hlu_data;
-        // var amp_data, bird_data, coral_data;
-        var bird_data;
-
-        (function() {
-            d3.json("{{=URL('hlu', args = request.args)}}" + '?taxon=' + 'bird', function(error, json_data) {
-                if (error) {
-                    console.warn(error);
-                } else {
-                  bird_data = json_data;
-                }
-            })
-        })();
-
-        var predefined_colors = function(n) {
-          var p_colors = ["#B6323A", "#eeeeee", "#222222"];
-          return p_colors[n % p_colors.length];
+    var remove_value_from_array = function(components, component) {
+        var i = components.indexOf(component);
+        if (i != -1) {
+            components.splice(i, 1);
         }
+    }
 
-        var chart_style = {
-            containerClass: 'radar-chart', // target with css, the default stylesheet targets .radar-chart
-            w: 320,
-            h: 320,
-            factor: 0.85,
-            factorLegend: 1,
-            levels: 3,
-            maxValue: 0,
-            minValue: 0,
-            radians: 2 * Math.PI,
-            color: d3.scale.category10(), // pass a noop (function() {}) to decide color via css
-            axisLine: true,
-            axisText: true,
-            circles: true,
-            radius: 5,
-            open: false, // whether or not the last axis value should connect back to the first axis value
-            // if true, consider modifying the chart opacity (see "Style with CSS" section above)
-            axisJoin: function(d, i) {
-                return d.className || i;
-            },
-            tooltipFormatValue: function(d) {
-                return d;
-            },
-            tooltipFormatClass: function(d) {
-                return d;
-            },
-            transitionDuration: 300
-        };
+    // bar colours
+    var predefined_colors = function(n) {
+        var p_colors = ["#B6323A", "#eeeeee", "#222222"];
+        return p_colors[n % p_colors.length];
+    };
 
-        // for barchart
+    var chart_style = {
+        containerClass: 'radar-chart', // target with css, the default stylesheet targets .radar-chart
+        w: 320,
+        h: 320,
+        factor: 0.85,
+        factorLegend: 1,
+        levels: 3,
+        maxValue: 0,
+        minValue: 0,
+        radians: 2 * Math.PI,
+        color: d3.scale.category10(), // pass a noop (function() {}) to decide color via css
+        axisLine: true,
+        axisText: true,
+        circles: true,
+        radius: 5,
+        open: false, // whether or not the last axis value should connect back to the first axis value
+        // if true, consider modifying the chart opacity (see "Style with CSS" section above)
+        axisJoin: function(d, i) {
+            return d.className || i;
+        },
+        tooltipFormatValue: function(d) {
+            return d;
+        },
+        tooltipFormatClass: function(d) {
+            return d;
+        },
+        transitionDuration: 300
+    };
 
-        // for radar-chart
-        var draw_taxon = function(taxon) {
-            var data;
-            d3.json("{{=URL('sle', args = request.args)}}" + '?taxon=' + taxon, function(error, json_data) {
-                data = json_data;
+    // for radar-chart
+    var add_radar_taxon = function(taxon) {
+        var data;
+        d3.json("{{=URL('sle', args = request.args)}}" + '?taxon=' + taxon, function(error, json_data) {
+            data = json_data;
 
-                if (error) {
-                    $('#' + taxon).append($('<p>Error occurred: ' + error + '</p>'));
-                    console.warn(error);
-                } else if ($.isEmptyObject(data)) {
-                    $('#' + taxon).append('<p>No data avaialble</p>');
-                } else {
-                    var chart = RadarChart.chart();
-                    // predefined style outside of function
-                    chart.config(chart_style);
-                    var svg = d3.select('#' + taxon).append('svg')
-                        .attr('width', 320)
-                        .attr('height', 320);
+            if (error) {
+                $('#' + taxon).append($('<p>Error occurred: ' + error + '</p>'));
+                console.warn(error);
+            } else if ($.isEmptyObject(data)) {
+                $('#' + taxon).append('<p>No data avaialble</p>');
+            } else {
+                var chart = RadarChart.chart();
+                // predefined style outside of function
+                chart.config(chart_style);
+                var svg = d3.select('#' + taxon).append('svg')
+                    .attr('width', 320)
+                    .attr('height', 320);
 
-                    // draw one
-                    svg.append('g').classed('focus', 1).datum(data).call(chart);
+                // draw one
+                svg.append('g').classed('focus', 1).datum(data).call(chart);
+            }
+        });
+    };
+
+    // async load json, wrapper to draw bar
+    var add_bar = function(json_url, component, target = '.detail') {
+        d3.json(json_url, function(error, json_data) {
+            if (error) {
+                console.warn(error);
+            } else {
+                // debug
+                // console.log(json_data);
+                draw_bar_mk2(json_data, component, target);
+            }
+        })
+
+    }
+
+    // load all bars
+    var add_all_detail_bars = function(json_url, target = '.detail') {
+        d3.json(json_url, function(error, json_data) {
+            if (error) {
+                console.warn(error);
+            } else {
+                // debug
+                // console.log(json_data);
+                var components = [];
+
+                for (var each in json_data) {
+                    components.push(each);
                 }
-            });
-        };
 
-        var draw_bar = function(taxon, component) {
+                components.sort();
 
-            d3.json("{{=URL('hlu', args = request.args)}}" + '?taxon=' + taxon, function(error, json_data) {
-                if (error) {
-                    console.warn(error);
-                } else {
-                  // debug
-                  // console.log(json_data);
-                  hlu_data = json_data;
+                // remove the final score and sle headers
 
-                  var component_data = json_data[component]
-                  if (component_data) {
-
-                    var data = component_data;
-
-                    // get scale
-                    var hlu_sum = 0;
-                    for (var i=0; i<data.length; i++) {
-                        hlu_sum += data[i].value;
-                    }
-
-                    var bar_scale = d3.scale.linear()
-                        .range([0, 320])
-                        .domain([0, hlu_sum])
-
-
-                    var svg = d3.select('.detail').append('div')
-                        .append('svg')
-                        .attr('width', 320)
-                        .attr('height', 200)
-
-                    // add rects
-                    svg.selectAll('rect').data(data)
-                        .enter()
-                        .append('rect')
-                        .attr('width', function(d){return bar_scale(d.value)})
-                        .attr('height', 20)
-                        .attr('x', function(d){return bar_scale(d.baseline)})
-                        .attr('fill', function(d, i){return predefined_colors(i)})
-
-                    // add annotation
-                    svg.selectAll('text').data(data)
-                        .enter()
-                        .append('text')
-                        .attr('x', function(d){return bar_scale(d.baseline)})
-                        .attr('y', 20)
-                        .text(function(d){return d.label + ':' + d.value})
-
-                  }
-
-
+                $.each(['FINAL_SCORE', 'SENSITIVITY', 'LOW_ADAPTABILITY', 'EXPOSURE'], function(index, value) {
+                    remove_value_from_array(components, value)
+                });
+                // draw
+                for (var i = 0; i < components.length; i++) {
+                    var component = components[i];
+                    draw_bar_mk2(json_data, component, target);
                 }
-            })
+            }
+        })
+    }
+
+    // draw bar
+    var draw_bar_mk2 = function(data, component, target) {
+        // data of format {'component1': [h_obj, l_obj, e_obj]}
+        // h_obj = {'value':<of the number of species>, 'label': <H|L|U>, 'baseline': <x start position>}
+
+        // component: the key of the returned object
+        // target: the DOM element to which the div of bar will be added
+        var component_data = data[component]
+        if (component_data) {
+
+            var data = component_data;
+
+            // get scale
+            var hlu_sum = 0;
+            for (var i = 0; i < data.length; i++) {
+                hlu_sum += data[i].value;
+            }
+
+            var bar_scale = d3.scale.linear()
+                .range([0, 320])
+                .domain([0, hlu_sum])
+
+
+            var div = d3.select(target).append('div')
+
+            // add heading
+            div.append('h2')
+                .attr('class', 'bar-header')
+                .text(component);
+
+            // the chart
+            var svg = div
+                .append('svg')
+                .attr('width', 320)
+                .attr('height', 15)
+
+            // add rects
+            svg.selectAll('rect').data(data)
+                .enter()
+                .append('rect')
+                .attr('width', function(d) {
+                    return bar_scale(d.value)
+                })
+                .attr('height', 15)
+                .attr('x', function(d) {
+                    return bar_scale(d.baseline)
+                })
+                .attr('fill', function(d, i) {
+                    return predefined_colors(i)
+                })
+
+            // add annotation
+            svg.selectAll('text').data(data)
+                .enter()
+                .append('text')
+                .attr('x', function(d) {
+                    return bar_scale(d.baseline + d.value / 2) //center label
+                })
+                .attr('y', 7)
+                .text(function(d) {
+                    return d.label + ':' + d.value
+                })
+                .style('font-size', 9)
 
         }
+    };
+
 
     $(document).ready(function() {
 
-        // callback functions cannot return values - this won't work!!
-        // get_taxon_data('amp', amp_data);
-        // get_taxon_data('bird', bird_data);
-        // get_taxon_data('coral', coral_data);
-        // get_bird_data();
+        add_radar_taxon('amp');
+        add_radar_taxon('bird');
+        add_radar_taxon('coral');
 
-        draw_taxon('amp');
-        draw_taxon('bird');
-        draw_taxon('coral');
+        // // draw_bar_mk2(bird_data, 'FINAL_SCORE')
+        // add_bar('bird', 'FINAL_SCORE');
+        // add_bar('amp)
 
-        draw_bar('amp', 'FINAL_SCORE')
-        draw_bar('bird', 'FINAL_SCORE')
-        draw_bar('coral', 'FINAL_SCORE')
+        add_all_detail_bars(bird_url)
+            // draw_bar('amp', 'FINAL_SCORE')
+            // draw_bar('bird', 'FINAL_SCORE')
+            // draw_bar('coral', 'FINAL_SCORE')
 
     });
     </script>
