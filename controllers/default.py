@@ -105,7 +105,7 @@ def hlu():
 def sle():
     """exposure, sensitivity and low adaptability
     meant to be called: esl.json/5004?taxon=amp
-    constructed for d3js for radar-chart"""
+    constructed specifically for d3js for radar-chart"""
     from ccv import get_hlu_by_wdpaid, sle_components
     import json
 
@@ -159,7 +159,17 @@ def sle():
 #         return dict(wdpaid=0)
 
 def site():
-    return dict()
+    from ccv import get_cv_label
+
+    args = request.args
+
+    if args:
+        wdpaid = args[0]
+        amp, bird, coral = get_cv_label(wdpaid)
+        return dict(amp_label=amp, bird_label=bird, coral_label=coral)
+
+    else:
+        return None
 
 def test_spider_chart():
     return dict()
