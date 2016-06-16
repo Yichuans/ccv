@@ -1,4 +1,6 @@
 @import url(https://fonts.googleapis.com/css?family=Roboto);
+@import url(https://fonts.googleapis.com/css?family=Roboto+Slab);
+
 $theme-color: OliveDrab;
 $nav-font-color: #fff;
 $theme-font-color: #fff;
@@ -137,6 +139,14 @@ section.detail {
     }
 }
 
+h1.site-name {
+    font-family: Roboto Slab;
+    font-size: 50px;
+    font-weight: bold;
+    text-align: left;
+    letter-spacing: 1px;
+}
+
 h1.section-heading {
     font-size: 25px;
     text-align: center;
@@ -146,13 +156,8 @@ h1.section-heading {
     margin-bottom: 32px;
 }
 
-h1.site-name {
-    font-size: 50px;
-    font-weight: bold;
-    text-align: left;
-}
-
 h2.taxon {
+    font-family: Roboto Slab;
     font-size: 16px;
     text-align: center;
     text-decoration: underline;
