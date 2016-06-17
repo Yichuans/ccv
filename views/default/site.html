@@ -143,6 +143,7 @@
         </section>
         <section class="bottom-bar">This is where license and additional information is</section>
     </footer>
+
     <script src="{{=URL('static','bower/bower_components/jquery/dist/jquery.js')}}"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="{{=URL('static','bower/bower_components/bootstrap/dist/js/bootstrap.js')}}"></script>
@@ -158,7 +159,7 @@
         if (i != -1) {
             components.splice(i, 1);
         }
-    }
+    };
 
     // bar colours. can this be done in css? this feels like a hack
     // not using green. The idea is to highlight only those that are highly vulnerable. Thus two grey colours
@@ -224,19 +225,20 @@
         });
     };
 
-    // async load json, wrapper to draw bar
-    var add_bar = function(json_url, component, target = '.detail') {
-        d3.json(json_url, function(error, json_data) {
-            if (error) {
-                console.warn(error);
-            } else {
-                // debug
-                // console.log(json_data);
-                draw_bar_mk2(json_data, component, target);
-            }
-        })
+    // // async load json, wrapper to draw bar
+    // var add_bar = function(json_url, component, target='.detail') {
+    //     d3.json(json_url, function(error, json_data) {
+    //         if (error) {
+    //             console.warn(error);
+    //         } else {
+    //             // debug
+    //             // console.log(json_data);
+    //             draw_bar_mk2(json_data, component, target);
+    //         }
+    //     });
 
-    }
+    // };
+    
     //add all bars for a taxon, in main and in detail
     var add_all_bars_taxon = function(json_url, taxon) {
         d3.json(json_url, function(error, json_data) {
@@ -254,19 +256,19 @@
                 components.sort();
 
                 // if there is no value
-                if (components.length == 0) {
+                if (components.length === 0) {
                     add_no_data('.' + taxon + '-main');
                     add_no_data('.' + taxon + '-detail');
                 } else {
                     // add main bars ======
-                    draw_bar_mk2(json_data, 'FINAL_SCORE', '.' + taxon + '-main')
-                    draw_bar_mk2(json_data, 'SENSITIVITY', '.' + taxon + '-main')
-                    draw_bar_mk2(json_data, 'LOW_ADAPTABILITY', '.' + taxon + '-main')
-                    draw_bar_mk2(json_data, 'EXPOSURE', '.' + taxon + '-main')
+                    draw_bar_mk2(json_data, 'FINAL_SCORE', '.' + taxon + '-main');
+                    draw_bar_mk2(json_data, 'SENSITIVITY', '.' + taxon + '-main');
+                    draw_bar_mk2(json_data, 'LOW_ADAPTABILITY', '.' + taxon + '-main');
+                    draw_bar_mk2(json_data, 'EXPOSURE', '.' + taxon + '-main');
 
                     // remove the final score and sle headers
                     $.each(['FINAL_SCORE', 'SENSITIVITY', 'LOW_ADAPTABILITY', 'EXPOSURE'], function(index, value) {
-                        remove_value_from_array(components, value)
+                        remove_value_from_array(components, value);
                     });
 
                     // add detail bars =====
@@ -279,27 +281,27 @@
 
                 }
             }
-        })
-    }
+        });
+    };
     // load all bars, for all taxa
     var add_all_bars = function() {
         add_all_bars_taxon(amp_url, 'amp');
         add_all_bars_taxon(bird_url, 'bird');
         add_all_bars_taxon(coral_url, 'coral');
-    }
+    };
 
     var add_no_data = function(target) {
         $(target).append('<p class="no-data">No data available</p>');
-    }
+    };
 
     // draw bar
-    var draw_bar_mk2 = function(data, component, target) {
-        // data of format {'component1': [h_obj, l_obj, e_obj]}
+    var draw_bar_mk2 = function(in_data, component, target) {
+        // in_data of format {'component1': [h_obj, l_obj, e_obj]}
         // h_obj = {'value':<of the number of species>, 'label': <H|L|U>, 'baseline': <x start position>}
 
         // component: the key of the returned object
         // target: the DOM element to which the div of bar will be added
-        var component_data = data[component]
+        var component_data = in_data[component];
         if (component_data) {
 
             var data = component_data;
@@ -312,15 +314,15 @@
 
             var bar_scale = d3.scale.linear()
                 .range([0, 320])
-                .domain([0, hlu_sum])
+                .domain([0, hlu_sum]);
 
             // div for heading and svg
-            var div = d3.select(target).append('div')
+            var div = d3.select(target).append('div');
 
             // add heading, replacing underscore
             // no beginning _, those within words allowed
             var component_no_line;
-            component_no_line = component.replace(/^_+/g, '').replace(/_+/g, ' ')
+            component_no_line = component.replace(/^_+/g, '').replace(/_+/g, ' ');
 
             div.append('h2')
                 .attr('class', 'bar-header')
@@ -338,40 +340,40 @@
                 .enter()
                 .append('rect')
                 .attr('width', function(d) {
-                    return bar_scale(d.value)
+                    return bar_scale(d.value);
                 })
                 .attr('height', 15)
                 .attr('x', function(d) {
-                    return bar_scale(d.baseline)
+                    return bar_scale(d.baseline);
                 })
                 .attr('fill', function(d, i) {
-                    return predefined_colors(i)
-                })
+                    return predefined_colors(i);
+                });
 
             // add annotation
             svg.selectAll('text').data(data)
                 .enter()
                 .append('text')
                 .attr('x', function(d) {
-                    return bar_scale(d.baseline) + 2 //center label
+                    return bar_scale(d.baseline) + 2; //center label
                 })
                 .attr('y', 12)
                 .text(function(d) {
-                    if (d.value==0){
-                        return ""
+                    if (d.value===0){
+                        return "";
                     } else {
-                        return d.label + ': ' + d.value
+                        return d.label + ': ' + d.value;
                     }
                 })
                 .style('font-size', 10)
                 .style('fill', function(d){
                     if (d.label == 'H'){
-                        return 'white'
+                        return 'white';
                     } else {
-                        return 'black'
+                        return 'black';
                     }
 
-                })
+                });
 
         }
     };
@@ -384,7 +386,7 @@
                 data = JSON.parse(data);
                 $('.site-name .main-title').append('<h1 class="site-name">' + data.en_name + '</h1>');
 
-            })
+            });
             // 
 
         // radar plot

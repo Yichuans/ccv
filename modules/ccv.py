@@ -20,6 +20,7 @@ from gluon.html import *
 # 	if record:
 # 		return record.as_dict()
 # 	return None
+
 sle_components = ['SENSITIVITY','LOW_ADAPTABILITY','EXPOSURE']
 
 

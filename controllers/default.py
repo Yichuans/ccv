@@ -9,18 +9,6 @@
 # -------------------------------------------------------------------------
 
 
-def index():
-    """
-    example action using the internationalization operator T and flash
-    rendered by views/default/index.html or views/generic.html
-
-    if you need a simple wiki simply replace the two lines below with:
-    return auth.wiki()
-    """
-    response.flash = T("Hello World")
-    return dict(message=T('Welcome to web2py!'))
-
-
 
 def user():
     """
@@ -140,23 +128,6 @@ def sle():
     else:
         return None
 
-# def site():
-#     from ccv import gen_div_taxon
-#     args = request.args
-
-#     if args:
-#         wdpaid = args[0]
-
-#         return dict(wdpaid=wdpaid)
-
-#         # needs to check if wdpaid is a valid WH site
-
-#         # return dict(wdpaid=wdpaid, 
-#         #     amp=gen_div_taxon(wdpaid, 'amp'), 
-#         #     bird=gen_div_taxon(wdpaid, 'bird'),
-#         #     coral=gen_div_taxon(wdpaid, 'coral'))
-#     else:
-#         return dict(wdpaid=0)
 
 def site():
     from ccv import get_cv_label
@@ -171,5 +142,33 @@ def site():
     else:
         return None
 
-def test_spider_chart():
+
+def index():
+    """
+    example action using the internationalization operator T and flash
+    rendered by views/default/index.html or views/generic.html
+
+    if you need a simple wiki simply replace the two lines below with:
+    return auth.wiki()
+    """
     return dict()
+
+
+def test():
+    import urllib2
+    import json
+
+    url = URL(a='utility', c='default', f='wh_all', host=True)
+
+    # return url
+
+    f = urllib2.urlopen(url)
+
+    json_str = f.read()
+    return json_str
+
+    # json_data = json.loads(json_str)
+
+    # return json.dumps(json_data)
+# def test_spider_chart():
+#     return dict()

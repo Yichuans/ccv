@@ -1,12 +1,10 @@
 @import url(https://fonts.googleapis.com/css?family=Roboto);
 @import url(https://fonts.googleapis.com/css?family=Roboto+Slab);
-
 $theme-color: OliveDrab;
 $nav-font-color: #fff;
 $theme-font-color: #fff;
 $red: #B6323A;
 $grey: #eee;
-
 html {
     height: 100%;
     font-family: Roboto;
@@ -14,7 +12,9 @@ html {
 
 body {
     margin: 0 auto;
+    display: -ms-flexbox;
     display: flex;
+    -ms-flex-direction: column;
     flex-direction: column;
 }
 
@@ -27,23 +27,34 @@ hr {
 nav {
     padding: 10px 10px;
     min-width: 320px;
+    display: -ms-flexbox;
     display: flex;
     background: $theme-color;
+    -ms-flex-align: center;
     align-items: center;
+    -ms-flex-pack: justify;
     justify-content: space-between;
+    -ms-flex-wrap: wrap;
     flex-wrap: wrap;
     a {
         text-decoration: none; //suppressing default style for anchor
     }
     .nav-left {
+        display: -ms-flexbox;
         display: flex;
+        -ms-flex-align: center;
         align-items: center;
+        -ms-flex-wrap: nowrap;
         flex-wrap: nowrap;
         .title {
             margin-left: 5px;
+            display: -ms-flexbox;
             display: flex;
+            -ms-flex-align: end;
             align-items: flex-end;
+            -ms-flex-pack: start;
             justify-content: flex-start;
+            -ms-flex-wrap: wrap;
             flex-wrap: wrap;
             .main-title {
                 font-size: 20px;
@@ -62,18 +73,89 @@ nav {
 
 main {
     // background: #eee;
-    // height: calc(100vh - 270px)
+    // height: calc(100vh - 270px);
+    display: -ms-flexbox;
     display: flex;
+    -ms-flex-direction: column;
     flex-direction: column;
+    // landing page
+    ul.site-container {
+
+        list-style-type: none;
+        margin: 0 0;
+        padding: 0 0;
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+        li.site {
+            width: 25%;
+            position: relative; //so that its child can be placed in relation this this
+            overflow: hidden; //ensure hover event doesn't go outside li
+
+            a {
+                color: white;
+
+                &:hover, &:active, &:visited {
+                    text-decoration: none;
+                    text-shadow: 2px 2px 2px rgba(0,0,0,0.4);
+                }
+                
+                display: block;
+                text-decoration: none;
+                //figure
+                figure {
+                    margin: 0 0;
+                    img {
+                        width: 100%;
+                        height: auto;
+                        -webkit-filter: grayscale(1);
+                        filter: grayscale(1);
+                        transition: .3s ease-in-out;
+                    }
+                }
+                //text overlay
+                div.text-wrapper {
+                    position: absolute;
+                    height: 100%;
+                    width: 100%;
+                    top: 0;
+                    left: 0;
+                    h2.site-name-img {
+                        padding: 10px; //some space around text
+                        position: relative;
+                        font-size: 20px;
+                        margin: 0 0;
+                        text-align: center;
+                        top: 20%;
+                    }
+                }
+            }
+
+            //hover event
+            &:hover img {
+                -webkit-filter: grayscale(0);
+                filter: grayscale(0);
+                transform: scale(1.1);
+            }
+        }
+    }
+    // site
     .site-name {
         // height: 150px;
         // background: lighten(blue, 20);
+        display: -ms-flexbox;
         display: flex;
+        -ms-flex-pack: distribute;
         justify-content: space-around;
+        -ms-flex-align: center;
         align-items: center;
+        -ms-flex-wrap: wrap;
         flex-wrap: wrap;
         .title-badge {
+            display: -ms-flexbox;
             display: flex;
+            -ms-flex-pack: center;
             justify-content: center;
             span.vbar {
                 // font-size: 50px;
@@ -93,49 +175,57 @@ main {
             }
         }
     }
-    div {
-        // margin: 0 20px;
-        min-width: 300px;
+    section {
+        margin-bottom: 20px;
+        div {
+            // margin: 0 20px;
+            min-width: 300px;
+        }
     }
-}
-
-section {
-    margin-bottom: 20px;
-}
-
-section.main {
-    display: flex;
-    justify-content: space-around;
-    flex-wrap: wrap;
-}
-
-section.infograph {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    flex-wrap: wrap;
-    .viz {
-        // border: 1px solid grey;
-        min-width: 320px;
-        min-height: 320px;
-        padding: 5px;
-        margin: 5px;
+    section.main {
+        display: -ms-flexbox;
         display: flex;
-        flex-direction: column;
-        align-items: center;
-        // justify-content: center;
-        p {}
+        -ms-flex-pack: distribute;
+        justify-content: space-around;
+        -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
     }
-}
-
-section.detail {
-    display: flex;
-    justify-content: space-around;
-    flex-wrap: wrap;
-    .amp-detail,
-    .bird-detail,
-    .coral-detail {
-        width: 320px;
+    section.infograph {
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-direction: row;
+        flex-direction: row;
+        -ms-flex-pack: distribute;
+        justify-content: space-around;
+        -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+        .viz {
+            // border: 1px solid grey;
+            min-width: 320px;
+            min-height: 320px;
+            padding: 5px;
+            margin: 5px;
+            display: -ms-flexbox;
+            display: flex;
+            -ms-flex-direction: column;
+            flex-direction: column;
+            -ms-flex-align: center;
+            align-items: center;
+            // justify-content: center;
+        }
+    }
+    section.detail {
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-pack: distribute;
+        justify-content: space-around;
+        -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+        .amp-detail,
+        .bird-detail,
+        .coral-detail {
+            width: 320px;
+        }
     }
 }
 
@@ -178,29 +268,39 @@ p.no-data {
 }
 
 footer {
+    display: -ms-flexbox;
     display: flex;
+    -ms-flex-direction: column;
     flex-direction: column;
     height: 200px;
     background-color: $theme-color;
     color: $theme-font-color;
     .bottom-section {
+        display: -ms-flexbox;
         display: flex;
+        -ms-flex-pack: center;
         justify-content: center;
+        -ms-flex-positive: 1;
         flex-grow: 1;
         .about,
         .addition,
         .copyright {
             width: 33%;
+            display: -ms-flexbox;
             display: flex;
+            -ms-flex-pack: center;
             justify-content: center;
+            -ms-flex-positive: 1;
             flex-grow: 1;
             border: 0.5px solid white;
         }
     }
     .bottom-bar {
+        display: -ms-flexbox;
         display: flex;
         background-color: #000;
         height: 20px;
+        -ms-flex-pack: end;
         justify-content: flex-end;
         font-size: 0.5em;
     }
@@ -209,25 +309,63 @@ footer {
 // medium
 @media (max-width: 835px) {
     nav {
+        -ms-flex-direction: column;
         flex-direction: column;
+    }
+    main {
+        ul.site-container {
+            li.site {
+                width: 33.3%;
+                overflow: hidden;
+            }
+        }
+    }
+    h1.site-name {
+        text-align: center;
     }
 }
 
 // small
 @media (max-width: 640px) {
     nav .nav-left .title {
+        -ms-flex-direction: column;
         flex-direction: column;
+        -ms-flex-align: center;
+        -ms-grid-row-align: center;
         align-items: center;
+        -ms-flex-wrap: nowrap;
         flex-wrap: nowrap;
         // justify-content: center;
     }
+    main {
+        ul.site-container {
+            li.site {
+                width: 50%;
+                height: 200px;
+                overflow: hidden;
+            }
+        }
+    }
     footer {
         .bottom-section {
+            -ms-flex-direction: column;
             flex-direction: column;
             .about,
             .addition,
             .copyright {
                 width: 100%;
+            }
+        }
+    }
+}
+
+@media (max-width: 400px) {
+    main {
+        ul.site-container {
+            li.site {
+                width: 100%;
+                height: 100px;
+                overflow: hidden;
             }
         }
     }

@@ -62,4 +62,6 @@ target/
 
 # web2py
 .pythonhistory
-errors/
+errors/*
+sessions/*
+static/css/.sass-cache/*
