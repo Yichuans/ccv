@@ -16,10 +16,11 @@
 </head>
 
 <body>
+    <!-- navbar -->
     <nav>
         <div class="nav-left">
             <!-- <img src='http://whca.noip.me/ca/static/images/iucn-white-logo.png'> -->
-            <a href="#">
+            <a href="{{=URL('index')}}">
                 <div class="title">
                     <span class="main-title">Natural World Heritage sites</span>
                     <span class="sub-title">species climate change vulnerability analysis</span>
@@ -28,15 +29,15 @@
         </div>
         <!-- landing page doesn't have one -->
         {{if has_search_bar:}}
-        <div class="search-bar">
-            <input type="text" />
-            <input type="submit" value="search">
-        </div>
+            {{block search_bar}}
+            {{end}}
         {{pass}}
     </nav>
+    <!-- the main logic -->
     <main>
         {{include}}
     </main>
+    <!-- footer -->
     <footer>
         <section class="bottom-section">
             <div class="about">about</div>
@@ -45,12 +46,6 @@
         </section>
         <section class="bottom-bar">This is where license and additional information is</section>
     </footer>
-
-<!-- scripts -->
-<script src="{{=URL('static','bower/bower_components/jquery/dist/jquery.js')}}"></script>
-<script src="{{=URL('static','bower/bower_components/jquery_lazyload/jquery.lazyload.js')}}"></script>
-<script type="text/javascript">
-$(document).ready(function(){
-    $("img.lazy").lazyload();
-})
-</script>
+    <!-- scripts -->
+    {{block jscontainer}} {{end}}
+</body>

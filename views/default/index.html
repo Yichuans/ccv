@@ -1,143 +1,57 @@
 {{has_search_bar=False}} {{extend 'layout-cus.html'}}
+
+<!-- filter box -->
+<div class="searchbox">
+    <input id="search" name="search" placeholder="Filter natural World Heritage sites" type="text" data-list=".site-container">
+</div>
 <!-- list of WH sites -->
-<ul class="site-container">
-    <li class="site">
-        <a href='#'>
-            <figure>
-                <img class='lazy' data-original="{{=URL(a='utility', c='static', f='images/test.jpg')}}"></figure>
-            <div class='text-wrapper'>
-                <h2 class="site-name-img">Galapogas</h2></div>
-        </a>
-    </li>
-    <li class="site">
-        <a href='#'>
-            <figure>
-                <img class='lazy' data-original="{{=URL(a='utility', c='default', f='wh_pic', args=191)}}"></figure>
-            <div class='text-wrapper'>
-                <h2 class="site-name-img">Galapogas</h2></div>
-        </a>
-    </li>
-    <li class="site">
-        <a href='#'>
-            <figure>
-                <img class='lazy' data-original="{{=URL(a='utility', c='static', f='images/test.jpg')}}"></figure>
-            <div class='text-wrapper'>
-                <h2 class="site-name-img">Galapogas</h2></div>
-        </a>
-    </li>
-    <li class="site">
-        <a href='#'>
-            <figure>
-                <img class='lazy' data-original="{{=URL(a='utility', c='static', f='images/test.jpg')}}"></figure>
-            <div class='text-wrapper'>
-                <h2 class="site-name-img">Galapogas</h2></div>
-        </a>
-    </li>
-    <li class="site">
-        <a href='#'>
-            <figure>
-                <img class='lazy' data-original="{{=URL(a='utility', c='static', f='images/test.jpg')}}"></figure>
-            <div class='text-wrapper'>
-                <h2 class="site-name-img">Galapogas</h2></div>
-        </a>
-    </li>
+<ul class="site-container"></ul>
+{{block jscontainer}}
+<script src="{{=URL('static','bower/bower_components/jquery/dist/jquery.js')}}"></script>
+<script src="{{=URL('static','bower/bower_components/jquery_lazyload/jquery.lazyload.js')}}"></script>
+<script src="{{=URL('static','HideSeek/jquery.hideseek.js')}}"></script>
+<script src="{{=URL('static','bower/bower_components/mustache.js/mustache.js')}}"></script>
+<script type="text/javascript">
+// debug
+// var wh_data;
 
-        <li class="site">
-        <a href='#'>
-            <figure>
-                <img class='lazy' data-original="{{=URL(a='utility', c='static', f='images/test.jpg')}}"></figure>
-            <div class='text-wrapper'>
-                <h2 class="site-name-img">Galapogas</h2></div>
-        </a>
-    </li>
+var img_path = "{{=URL(a='utility', c='default', f='wh_pic')}}"
+var redirct_path = "{{=URL('site')}}"
 
-        <li class="site">
-        <a href='#'>
-            <figure>
-                <img class='lazy' data-original="{{=URL(a='utility', c='static', f='images/test.jpg')}}"></figure>
-            <div class='text-wrapper'>
-                <h2 class="site-name-img">Galapogas</h2></div>
-        </a>
-    </li>
+$(document).ready(function() {
 
-        <li class="site">
-        <a href='#'>
-            <figure>
-                <img class='lazy' data-original="{{=URL(a='utility', c='static', f='images/test.jpg')}}"></figure>
-            <div class='text-wrapper'>
-                <h2 class="site-name-img">Galapogas</h2></div>
-        </a>
-    </li>
+    var template = "<li class='site'><a target='_blank' href=" + redirct_path + "/{%wdpaid%}><figure><img class='lazy' data-original=" + img_path + "/{%wdpaid%}></figure><div class='text-wrapper'><h2 class='site-name-img'>{%en_name%}</h2></div></a></li>";
 
-        <li class="site">
-        <a href='#'>
-            <figure>
-                <img class='lazy' data-original="{{=URL(a='utility', c='static', f='images/test.jpg')}}"></figure>
-            <div class='text-wrapper'>
-                <h2 class="site-name-img">Galapogas</h2></div>
-        </a>
-    </li>
+    // console.log(template);
 
-        <li class="site">
-        <a href='#'>
-            <figure>
-                <img class='lazy' data-original="{{=URL(a='utility', c='static', f='images/test.jpg')}}"></figure>
-            <div class='text-wrapper'>
-                <h2 class="site-name-img">Galapogas</h2></div>
-        </a>
-    </li>
+    var parse_template = Mustache.parse(template, tags = ['{%', '%}']);
 
-        <li class="site">
-        <a href='#'>
-            <figure>
-                <img class='lazy' data-original="{{=URL(a='utility', c='static', f='images/test.jpg')}}"></figure>
-            <div class='text-wrapper'>
-                <h2 class="site-name-img">Galapogas</h2></div>
-        </a>
-    </li>
+    // get wh attr for all sites asynx json
+    $.get("{{=URL(a='utility', c='default', f='wh_all')}}", function(data) {
+        var wh_data = JSON.parse(data);
 
-        <li class="site">
-        <a href='#'>
-            <figure>
-                <img class='lazy' data-original="{{=URL(a='utility', c='static', f='images/test.jpg')}}"></figure>
-            <div class='text-wrapper'>
-                <h2 class="site-name-img">Galapogas</h2></div>
-        </a>
-    </li>
+        // make DOM objects
+        $.each(wh_data, function(i, wh) {
+            $('ul.site-container').append(Mustache.render(template, wh));
+        });
 
-        <li class="site">
-        <a href='#'>
-            <figure>
-                <img class='lazy' data-original="{{=URL(a='utility', c='static', f='images/test.jpg')}}"></figure>
-            <div class='text-wrapper'>
-                <h2 class="site-name-img">Galapogas</h2></div>
-        </a>
-    </li>
+        // enable lazyload once all img loaded
+        $("img.lazy").lazyload();
 
-        <li class="site">
-        <a href='#'>
-            <figure>
-                <img class='lazy' data-original="{{=URL(a='utility', c='static', f='images/test.jpg')}}"></figure>
-            <div class='text-wrapper'>
-                <h2 class="site-name-img">Galapogas</h2></div>
-        </a>
-    </li>
+        // enable live search
+        $('#search').hideseek({
+           ignore_accents: true,
+           navigation: true
+        });
 
-        <li class="site">
-        <a href='#'>
-            <figure>
-                <img class='lazy' data-original="{{=URL(a='utility', c='static', f='images/test.jpg')}}"></figure>
-            <div class='text-wrapper'>
-                <h2 class="site-name-img">Galapogas</h2></div>
-        </a>
-    </li>
+    });
 
-        <li class="site">
-        <a href='#'>
-            <figure>
-                <img class='lazy' data-original="{{=URL(a='utility', c='static', f='images/test.jpg')}}"></figure>
-            <div class='text-wrapper'>
-                <h2 class="site-name-img">Galapogas</h2></div>
-        </a>
-    </li>
-</ul>
+    // trigger lazy load on key up (otherwise it won't work)
+    $("#search").keyup(function() {
+        $(window).trigger("scroll");
+    })
+
+
+})
+</script>
+{{end}}

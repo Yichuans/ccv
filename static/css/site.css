@@ -2,7 +2,7 @@
 @import url(https://fonts.googleapis.com/css?family=Roboto+Slab);
 html {
   height: 100%;
-  font-family: Roboto; }
+  font-family: Roboto !important; }
 
 body {
   margin: 0 auto;
@@ -62,6 +62,24 @@ main {
   display: flex;
   -ms-flex-direction: column;
   flex-direction: column; }
+  main div.searchbox {
+    width: 100%;
+    text-align: center; }
+    main div.searchbox input {
+      font-size: 2em;
+      font-family: Roboto;
+      letter-spacing: 1px;
+      width: 80%;
+      border-style: none;
+      border-bottom: 1px solid #eee;
+      padding-top: 5px;
+      padding-bottom: 5px;
+      margin-top: 10px;
+      margin-bottom: 10px; }
+      main div.searchbox input:focus {
+        border-style: none;
+        border-bottom: 1px solid #eee;
+        outline-style: none; }
   main ul.site-container {
     list-style-type: none;
     margin: 0 0;
@@ -71,16 +89,19 @@ main {
     -ms-flex-wrap: wrap;
     flex-wrap: wrap; }
     main ul.site-container li.site {
-      width: 25%;
+      width: 12.5%;
       position: relative;
-      overflow: hidden; }
+      overflow: hidden;
+      margin: 0 0 -4px 0; }
       main ul.site-container li.site a {
         color: white;
         display: block;
         text-decoration: none; }
         main ul.site-container li.site a:hover, main ul.site-container li.site a:active, main ul.site-container li.site a:visited {
-          text-decoration: none;
-          text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.4); }
+          text-decoration: none; }
+          main ul.site-container li.site a:hover h2.site-name-img, main ul.site-container li.site a:active h2.site-name-img, main ul.site-container li.site a:visited h2.site-name-img {
+            text-decoration: underline;
+            opacity: 0.4; }
         main ul.site-container li.site a figure {
           margin: 0 0; }
           main ul.site-container li.site a figure img {
@@ -96,12 +117,14 @@ main {
           top: 0;
           left: 0; }
           main ul.site-container li.site a div.text-wrapper h2.site-name-img {
-            padding: 10px;
+            padding: 1em;
             position: relative;
             font-size: 20px;
             margin: 0 0;
             text-align: center;
-            top: 20%; }
+            text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
+            top: 20%;
+            transition: .3s ease-in-out; }
       main ul.site-container li.site:hover img {
         -webkit-filter: grayscale(0);
         filter: grayscale(0);
@@ -244,9 +267,11 @@ footer {
   nav {
     -ms-flex-direction: column;
     flex-direction: column; }
+    nav .auto-search-bar {
+      width: 50%; }
 
   main ul.site-container li.site {
-    width: 33.3%;
+    width: 25%;
     overflow: hidden; }
 
   h1.site-name {
@@ -274,6 +299,9 @@ footer {
     footer .bottom-section .copyright {
       width: 100%; } }
 @media (max-width: 400px) {
+  nav .auto-search-bar {
+    width: 75%; }
+
   main ul.site-container li.site {
     width: 100%;
     height: 100px;
